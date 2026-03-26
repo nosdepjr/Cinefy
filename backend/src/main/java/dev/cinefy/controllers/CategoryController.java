@@ -5,6 +5,8 @@ import dev.cinefy.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController()
 @RequestMapping("/category")
 @RequiredArgsConstructor
@@ -21,4 +23,13 @@ public class CategoryController{
         return categoryService.createCategory(category);
     }
 
+    @GetMapping("")
+    public List<Category> findAllCategories(){
+        return categoryService.findAllCategories();
+    }
+
+    @GetMapping("/{id}")
+    public Category findCategoryById(@PathVariable Long id){
+        return categoryService.findCategoryById(id);
+    }
 }
