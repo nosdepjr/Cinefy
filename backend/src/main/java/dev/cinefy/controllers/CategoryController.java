@@ -1,35 +1,54 @@
 package dev.cinefy.controllers;
 
-import dev.cinefy.entities.Category;
+import dev.cinefy.controllers.request.CategoryRequest;
+import dev.cinefy.controllers.response.CategoryResponse;
 import dev.cinefy.services.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController()
-@RequestMapping("/category")
+@RestController
+@RequestMapping("/categories")
 @RequiredArgsConstructor
-public class CategoryController{
+public class CategoryController {
+
     private final CategoryService categoryService;
 
     @GetMapping("/health")
-    public String healthCheck(){
-        return "Hello World!";
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("Hello World!");
     }
 
-    @PostMapping("/create")
-    public Category createCategory(@RequestBody Category category){
-        return categoryService.createCategory(category);
+    @PostMapping
+    public ResponseEntity<CategoryResponse> createCategory(
+            @RequestBody CategoryRequest request) {
+
+        CategoryResponse response = categoryService.createCategory(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("")
-    public List<Category> findAllCategories(){
-        return categoryService.findAllCategories();
+    @GetMapping
+    public ResponseEntity<List<CategoryResponse>> findAllCategories() {
+        return ResponseEntity.ok(categoryService.findAllCategories());
     }
 
     @GetMapping("/{id}")
-    public Category findCategoryById(@PathVariable Long id){
-        return categoryService.findCategoryById(id);
+    public ResponseEntity<CategoryResponse> findCategoryById(@PathVariable Long id) {
+        CategoryResponse response = categoryService.findCategoryById(id);
+
+        if (response == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategoryById(id);
+        return ResponseEntity.noContent().build();
     }
 }

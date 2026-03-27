@@ -16,9 +16,7 @@ public class CategoryService{
     private final CategoryRepository categoryRepository;
 
     public CategoryResponse createCategory(CategoryRequest categoryRequest){
-        Category category = new Category();
-        category.setName(categoryRequest.name());
-        return CategoryMapper.toCategoryResponse(categoryRepository.save(category));
+        return CategoryMapper.toCategoryResponse(categoryRepository.save(CategoryMapper.toCategory((categoryRequest))));
     }
 
     public List<CategoryResponse> findAllCategories(){
