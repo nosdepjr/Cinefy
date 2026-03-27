@@ -1,6 +1,9 @@
 package dev.cinefy.services;
 
+import dev.cinefy.controllers.request.CategoryRequest;
+import dev.cinefy.controllers.response.CategoryResponse;
 import dev.cinefy.entities.Category;
+import dev.cinefy.mappers.CategoryMapper;
 import dev.cinefy.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,17 +15,26 @@ import java.util.List;
 public class CategoryService{
     private final CategoryRepository categoryRepository;
 
-    public Category createCategory(Category category){
-        return categoryRepository.save(category);
+    public CategoryResponse createCategory(CategoryRequest categoryRequest){
+        Category category = new Category();
+        category.setName(categoryRequest.name());
+        return CategoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 
-    public List<Category> findAllCategories(){
-        return categoryRepository.findAll();
+    public List<CategoryResponse> findAllCategories(){
+        List<Category> categories = categoryRepository.findAll();
+        return categories
+                .stream()
+                .map(CategoryMapper::toCategoryResponse)
+                .toList();
     }
 
-    public Category findCategoryById(Long id){
-        return categoryRepository.findById(id)
+    public CategoryResponse findCategoryById(Long id){
+        Category category = categoryRepository
+                .findById(id)
                 .orElse(null);
+        return category != null? CategoryMapper.toCategoryResponse(category):null;
+
     }
 
     public void deleteCategoryById(Long id){
