@@ -13,7 +13,7 @@ import lombok.*;
 public class Streaming{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @Column(length = 100, nullable = false)
-    String name;
+    private String name;
 }
