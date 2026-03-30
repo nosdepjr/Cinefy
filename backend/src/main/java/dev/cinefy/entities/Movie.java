@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_movie")
@@ -38,4 +39,17 @@ public class Movie{
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @ManyToMany
+    @JoinTable(name = "tb_movie_category",
+        joinColumns = @JoinColumn(name = "movie_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
+
+    @ManyToMany
+    @JoinTable(name = "tb_movie_streaming",
+        joinColumns = @JoinColumn(name = "movie_id"),
+        inverseJoinColumns = @JoinColumn(name = "streaming_id")
+    )
+    private List<Streaming> streamings;
 }
