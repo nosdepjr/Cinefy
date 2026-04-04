@@ -6,5 +6,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Builder
-public record MovieResponse(String title, String description, LocalDate releaseDate, double rating, List<CategoryResponse> categories, List<StreamingResponse> streamings){
+public record MovieResponse(String title,
+                            String description,
+                            LocalDate releaseDate,
+                            double rating,
+                            List<CategoryResponse> categories,
+                            List<StreamingResponse> streamings){
 }

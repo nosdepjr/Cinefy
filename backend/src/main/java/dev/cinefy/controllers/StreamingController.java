@@ -23,8 +23,7 @@ public class StreamingController {
     }
 
     @PostMapping
-    public ResponseEntity<StreamingResponse> createStreaming(
-            @RequestBody StreamingRequest request) {
+    public ResponseEntity<StreamingResponse> createStreaming(@RequestBody StreamingRequest request) {
 
         StreamingResponse response = streamingService.createStreaming(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
