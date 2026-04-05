@@ -15,8 +15,8 @@ import java.util.List;
 public class CategoryService{
     private final CategoryRepository categoryRepository;
 
-    public CategoryResponse createCategory(CategoryRequest categoryRequest){
-        return CategoryMapper.toCategoryResponse(categoryRepository.save(CategoryMapper.toCategory((categoryRequest))));
+    public CategoryResponse createCategory(CategoryRequest request){
+        return CategoryMapper.toCategoryResponse(categoryRepository.save(CategoryMapper.toCategory((request))));
     }
 
     public List<CategoryResponse> findAllCategories(){
@@ -33,6 +33,22 @@ public class CategoryService{
                 .orElse(null);
         return category != null? CategoryMapper.toCategoryResponse(category):null;
 
+    }
+
+    public CategoryResponse updateCategory(Long id, CategoryRequest request) {
+        Category category = categoryRepository.findById(id).orElse(null);
+
+        if (category == null) {
+            return null;
+        }
+
+        if (request.name() != null) {
+            category.setName(request.name());
+        }
+
+        Category updatedCategory = categoryRepository.save(category);
+
+        return CategoryMapper.toCategoryResponse(updatedCategory);
     }
 
     public void deleteCategoryById(Long id){
