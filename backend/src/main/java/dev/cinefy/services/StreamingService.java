@@ -35,6 +35,22 @@ public class StreamingService{
 
     }
 
+    public StreamingResponse updateStreaming(Long id, StreamingRequest request) {
+        Streaming streaming = streamingRepository.findById(id).orElse(null);
+
+        if (streaming == null) {
+            return null;
+        }
+
+        if (request.name() != null) {
+            streaming.setName(request.name());
+        }
+
+        Streaming updatedCategory = streamingRepository.save(streaming);
+
+        return StreamingMapper.toStreamingResponse(updatedCategory);
+    }
+
     public void deleteStreamingById(Long id){
         streamingRepository.deleteById(id);
     }

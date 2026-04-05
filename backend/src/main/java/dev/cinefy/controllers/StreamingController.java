@@ -1,6 +1,8 @@
 package dev.cinefy.controllers;
 
+import dev.cinefy.controllers.request.CategoryRequest;
 import dev.cinefy.controllers.request.StreamingRequest;
+import dev.cinefy.controllers.response.CategoryResponse;
 import dev.cinefy.controllers.response.StreamingResponse;
 import dev.cinefy.services.StreamingService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +39,20 @@ public class StreamingController {
     @GetMapping("/{id}")
     public ResponseEntity<StreamingResponse> findCategoryById(@PathVariable Long id) {
         StreamingResponse response = streamingService.findStreamingById(id);
+
+        if (response == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<StreamingResponse> updateCategory(
+            @PathVariable Long id,
+            @RequestBody StreamingRequest request) {
+
+        StreamingResponse response = streamingService.updateStreaming(id, request);
 
         if (response == null) {
             return ResponseEntity.notFound().build();
