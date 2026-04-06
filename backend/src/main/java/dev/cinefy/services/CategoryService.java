@@ -35,6 +35,10 @@ public class CategoryService{
 
     }
 
+    public Category findEntityById(Long id) {
+        return categoryRepository.findById(id).orElse(null);
+    }
+
     public CategoryResponse updateCategory(Long id, CategoryRequest request) {
         Category category = categoryRepository.findById(id).orElse(null);
 

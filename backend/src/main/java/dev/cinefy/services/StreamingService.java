@@ -2,6 +2,7 @@ package dev.cinefy.services;
 
 import dev.cinefy.controllers.request.StreamingRequest;
 import dev.cinefy.controllers.response.StreamingResponse;
+import dev.cinefy.entities.Category;
 import dev.cinefy.entities.Streaming;
 import dev.cinefy.mappers.StreamingMapper;
 import dev.cinefy.repositories.StreamingRepository;
@@ -32,7 +33,10 @@ public class StreamingService{
                 .findById(id)
                 .orElse(null);
         return streaming != null? StreamingMapper.toStreamingResponse(streaming):null;
+    }
 
+    public Streaming findEntityById(Long id) {
+        return streamingRepository.findById(id).orElse(null);
     }
 
     public StreamingResponse updateStreaming(Long id, StreamingRequest request) {
