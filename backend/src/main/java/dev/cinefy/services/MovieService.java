@@ -6,13 +6,10 @@ import dev.cinefy.entities.Category;
 import dev.cinefy.entities.Movie;
 import dev.cinefy.entities.Streaming;
 import dev.cinefy.mappers.MovieMapper;
-import dev.cinefy.repositories.CategoryRepository;
 import dev.cinefy.repositories.MovieRepository;
-import dev.cinefy.repositories.StreamingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,15 +31,13 @@ public class MovieService{
 
     public List<MovieResponse> findAllMovies(){
         List<Movie> movies = movieRepository.findAll();
-        return movies
-                .stream()
+        return movies.stream()
                 .map(MovieMapper::toMovieResponse)
                 .toList();
     }
 
     public MovieResponse findMovieById(Long id){
-        Movie movie = movieRepository
-                .findById(id)
+        Movie movie = movieRepository.findById(id)
                 .orElse(null);
         return movie != null? MovieMapper.toMovieResponse(movie):null;
     }

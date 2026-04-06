@@ -2,7 +2,6 @@ package dev.cinefy.controllers;
 
 import dev.cinefy.controllers.request.MovieRequest;
 import dev.cinefy.controllers.response.MovieResponse;
-import dev.cinefy.controllers.response.StreamingResponse;
 import dev.cinefy.services.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

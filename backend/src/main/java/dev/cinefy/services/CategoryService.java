@@ -21,26 +21,26 @@ public class CategoryService{
 
     public List<CategoryResponse> findAllCategories(){
         List<Category> categories = categoryRepository.findAll();
-        return categories
-                .stream()
+        return categories.stream()
                 .map(CategoryMapper::toCategoryResponse)
                 .toList();
     }
 
     public CategoryResponse findCategoryById(Long id){
-        Category category = categoryRepository
-                .findById(id)
+        Category category = categoryRepository.findById(id)
                 .orElse(null);
         return category != null? CategoryMapper.toCategoryResponse(category):null;
 
     }
 
     public Category findEntityById(Long id) {
-        return categoryRepository.findById(id).orElse(null);
+        return categoryRepository.findById(id)
+                .orElse(null);
     }
 
     public CategoryResponse updateCategory(Long id, CategoryRequest request) {
-        Category category = categoryRepository.findById(id).orElse(null);
+        Category category = categoryRepository.findById(id)
+                .orElse(null);
 
         if (category == null) {
             return null;

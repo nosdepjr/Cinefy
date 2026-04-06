@@ -1,8 +1,6 @@
 package dev.cinefy.controllers;
 
-import dev.cinefy.controllers.request.CategoryRequest;
 import dev.cinefy.controllers.request.StreamingRequest;
-import dev.cinefy.controllers.response.CategoryResponse;
 import dev.cinefy.controllers.response.StreamingResponse;
 import dev.cinefy.services.StreamingService;
 import lombok.RequiredArgsConstructor;
