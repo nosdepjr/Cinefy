@@ -26,7 +26,9 @@ public class MovieService{
         movie.setCategories(this.findCategories(movie.getCategories()));
         movie.setStreamings(this.findStreamings(movie.getStreamings()));
 
-        return MovieMapper.toMovieResponse(movieRepository.save(movie));
+        Movie created = movieRepository.save(movie);
+
+        return MovieMapper.toMovieResponse(created);
     }
 
     public List<MovieResponse> findAllMovies(){
@@ -54,6 +56,55 @@ public class MovieService{
                 .map(category -> streamingService.findEntityById(category.getId()))
                 .filter(Objects::nonNull)
                 .toList();
+    }
+
+    public MovieResponse updateMovie(Long id, MovieRequest request) {
+        Movie movie = movieRepository.findById(id)
+                .orElse(null);
+
+        if (movie == null) {
+            return null;
+        }
+
+        if (request.title() != null) {
+            movie.setTitle(request.title());
+        }
+
+        if (request.description() != null) {
+            movie.setDescription(request.description());
+        }
+
+        if (request.releaseDate() != null) {
+            movie.setReleaseDate(request.releaseDate());
+        }
+
+        if (request.rating() != null) {
+            movie.setRating(request.rating());
+        }
+
+        if (request.categoryIds() != null) {
+            List<Category> categories = request.categoryIds()
+                    .stream()
+                    .map(categoryService::findEntityById)
+                    .filter(Objects::nonNull)
+                    .toList();
+
+            movie.setCategories(categories);
+        }
+
+        if (request.streamingIds() != null) {
+            List<Streaming> streamings = request.streamingIds()
+                    .stream()
+                    .map(streamingService::findEntityById)
+                    .filter(Objects::nonNull)
+                    .toList();
+
+            movie.setStreamings(streamings);
+        }
+
+        Movie updated = movieRepository.save(movie);
+
+        return MovieMapper.toMovieResponse(updated);
     }
 
     public void deleteMovieById(Long id){
