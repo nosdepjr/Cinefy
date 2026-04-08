@@ -44,7 +44,15 @@ public class MovieService{
         return movie != null? MovieMapper.toMovieResponse(movie):null;
     }
 
-    private List<Category> findCategories(List<Category> categories) {
+    public List<MovieResponse> findMoviesByCategory(Long id){
+        List<Movie> moviesFound = movieRepository.findByCategories_Id(id);
+
+        return moviesFound.stream()
+                .map(MovieMapper::toMovieResponse)
+                .toList();
+    }
+
+    private List<Category> findCategories(List<Category> categories){
         return categories.stream()
                 .map(category -> categoryService.findEntityById(category.getId()))
                 .filter(Objects::nonNull)
@@ -58,31 +66,31 @@ public class MovieService{
                 .toList();
     }
 
-    public MovieResponse updateMovie(Long id, MovieRequest request) {
+    public MovieResponse updateMovie(Long id, MovieRequest request){
         Movie movie = movieRepository.findById(id)
                 .orElse(null);
 
-        if (movie == null) {
+        if (movie == null){
             return null;
         }
 
-        if (request.title() != null) {
+        if (request.title() != null){
             movie.setTitle(request.title());
         }
 
-        if (request.description() != null) {
+        if (request.description() != null){
             movie.setDescription(request.description());
         }
 
-        if (request.releaseDate() != null) {
+        if (request.releaseDate() != null){
             movie.setReleaseDate(request.releaseDate());
         }
 
-        if (request.rating() != null) {
+        if (request.rating() != null){
             movie.setRating(request.rating());
         }
 
-        if (request.categoryIds() != null) {
+        if (request.categoryIds() != null){
             List<Category> categories = request.categoryIds()
                     .stream()
                     .map(categoryService::findEntityById)
@@ -92,7 +100,7 @@ public class MovieService{
             movie.setCategories(categories);
         }
 
-        if (request.streamingIds() != null) {
+        if (request.streamingIds() != null){
             List<Streaming> streamings = request.streamingIds()
                     .stream()
                     .map(streamingService::findEntityById)

@@ -23,29 +23,38 @@ public class MovieController{
     }
 
     @GetMapping
-    public ResponseEntity<List<MovieResponse>> findAllMovies() {
+    public ResponseEntity<List<MovieResponse>> findAllMovies(){
         return ResponseEntity.ok(movieService.findAllMovies());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MovieResponse> findMovieById(@PathVariable Long id) {
+    public ResponseEntity<MovieResponse> findMovieById(@PathVariable Long id){
         MovieResponse response = movieService.findMovieById(id);
 
-        if (response == null) {
+        if (response == null){
             return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<MovieResponse>> findMoviesByCategory(@RequestParam(required = false) Long categoryId){
+        if (categoryId != null){
+            return ResponseEntity.ok(movieService.findMoviesByCategory(categoryId));
+        }
+
+        return ResponseEntity.ok(movieService.findAllMovies());
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<MovieResponse> updateMovie(
             @PathVariable Long id,
             @RequestBody MovieRequest request
-    ) {
+    ){
         MovieResponse response = movieService.updateMovie(id, request);
 
-        if (response == null) {
+        if (response == null){
             return ResponseEntity.notFound().build();
         }
 
@@ -53,7 +62,7 @@ public class MovieController{
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id){
         movieService.deleteMovieById(id);
         return ResponseEntity.noContent().build();
     }
