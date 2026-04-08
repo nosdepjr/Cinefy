@@ -115,7 +115,12 @@ public class MovieService{
         return MovieMapper.toMovieResponse(updated);
     }
 
-    public void deleteMovieById(Long id){
+    public MovieResponse deleteMovieById(Long id){
+        Movie movie = movieRepository.findById(id)
+                .orElse(null);
         movieRepository.deleteById(id);
+
+        return movie != null? MovieMapper.toMovieResponse(movie):null;
+
     }
 }

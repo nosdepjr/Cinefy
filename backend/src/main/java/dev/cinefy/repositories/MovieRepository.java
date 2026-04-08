@@ -1,6 +1,5 @@
 package dev.cinefy.repositories;
 
-import dev.cinefy.entities.Category;
 import dev.cinefy.entities.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
