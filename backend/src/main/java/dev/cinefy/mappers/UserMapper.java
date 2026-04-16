@@ -9,7 +9,7 @@ import lombok.experimental.UtilityClass;
 public class UserMapper{
     public static User toUser(UserRequest request){
         return User.builder()
-                .username(request.username())
+                .name(request.username())
                 .email(request.email())
                 .password(request.password())
                 .build();
@@ -17,7 +17,7 @@ public class UserMapper{
 
     public static UserResponse toUserResponse(User user){
         return UserResponse.builder()
-                .username(user.getUsername())
+                .username(user.getName())
                 .email(user.getEmail())
                 .build();
     }

@@ -14,3 +14,7 @@ spring:
 
     flyway:
       enabled: true
+
+cinefy:
+  security:
+    secret: ${SECRET}
